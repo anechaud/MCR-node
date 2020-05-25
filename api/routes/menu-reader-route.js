@@ -15,6 +15,6 @@ app.route('/Eatery/:restName/:type')
 .get(todoList.get_item_by_type);
 
 app.route('/Eatery/:restName/item/:itemName')
-.get(todoList.get_item_by_Name);
+.post(todoList.get_item_by_Name);
 
 };
