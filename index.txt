@@ -1,0 +1,248 @@
+const express = require('express');
+const app = express();
+
+var firebase = require('firebase');
+var bodyParser = require('body-parser');
+
+app.use(bodyParser.json()); //need to parse HTTP request body
+
+var firebaseConfig = {
+    apiKey: "AIzaSyAe6h3XH5M-NJEU8xc_HYO7dwf8vXfMQiM",
+    authDomain: "test-mcr.firebaseapp.com",
+    databaseURL: "https://test-mcr.firebaseio.com",
+    projectId: "test-mcr",
+    storageBucket: "test-mcr.appspot.com",
+    messagingSenderId: "64655839249",
+    appId: "1:64655839249:web:572862fd808e11d24361b0"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+app.get('/', (req, res) =>{
+    res.send('Hello World');
+});
+
+//Fetch eatery names
+app.get('/eatery', function (req, res) {
+
+	console.log("HTTP Get Request");
+	var userReference = firebase.database().ref("/Eatery");
+
+	//Attach an asynchronous callback to read the data
+	userReference.on("value", 
+			  function(eaterySnapshot) {
+					  var lst = [];
+					  var response = 'The eateries available are : ';
+					eaterySnapshot.forEach(function(snapshot){
+						var obj = snapshot.val();
+						lst.push(obj.name);
+						response = response + obj.name + '    ';
+					})
+					console.log(lst);
+					res.json({fulfillmentText : response});
+					userReference.off("value");
+					}, 
+			  function (errorObject) {
+					console.log("Read failed: " + errorObject.code);
+					res.send("Read failed: " + errorObject.code);
+			 });
+});
+
+//Fetch operating hours
+app.get('/eatery/hours/:name', function (req, res) {
+
+	console.log("HTTP Get Request");
+	var userReference = firebase.database().ref("/Eatery");
+
+	//Attach an asynchronous callback to read the data
+	userReference.on("value", 
+			  function(eaterySnapshot) {
+					  var response = 'The operating hours are ';
+					eaterySnapshot.forEach(function(snapshot){
+						var obj = snapshot.val();
+						if(obj.name == req.params.name){
+							response = response + obj.schedule.StartTime + ' to ' + obj.schedule.EndTime;
+						}
+					})
+					res.json({fulfillmentText : response});
+					userReference.off("value");
+					}, 
+			  function (errorObject) {
+					console.log("Read failed: " + errorObject.code);
+					res.send("Read failed: " + errorObject.code);
+			 });
+});
+
+//Fetch menu types
+app.get('/eatery/:name', function (req, res) {
+
+	console.log("HTTP Get Request");
+	var userReference = firebase.database().ref("/Eatery");
+
+	//Attach an asynchronous callback to read the data
+	userReference.on("value", 
+			  function(eaterySnapshot) {
+					var lst = [];
+					var response = '';
+					var date = new Date();
+					var current_hour = date.getHours();
+					console.log(current_hour);
+					eaterySnapshot.forEach(function(snapshot){
+						var obj = snapshot.val();
+						if(obj.name == req.params.name){
+							if(current_hour > Number(obj.schedule.StartTime.split(':')[0]) && current_hour < Number(obj.schedule.EndTime.split(':')[0])){
+								console.log("eatery open");
+								// res.send("eatery open");
+								for (var i=0; i < obj.MenuTypes.length; i++){
+									if((current_hour > Number(obj.MenuTypes[i].StartTime.split(':')[0])) && (current_hour < Number(obj.MenuTypes[i].EndTime.split(':')[0]))){
+										response = obj.MenuTypes[i].Type;
+										console.log('Open');
+									}
+									else{
+										console.log("eatery open - Currently kitchen closed");
+										response = "eatery open - Currently kitchen closed";
+									}
+									// lst.push(Number(obj.MenuTypes[i].StartTime.split(':')[0]));
+									
+								}
+								// console.log(obj.MenuTypes[0].Type);
+								
+							}
+							else{
+								console.log("eatery closed");
+								response = "eatery closed";
+							}
+						}
+						
+					})
+					res.json({fulfillmentText : response});
+					userReference.off("value");
+					}, 
+			  function (errorObject) {
+					console.log("Read failed: " + errorObject.code);
+					res.send("Read failed: " + errorObject.code);
+			 });
+});
+
+//Fetch menu items
+app.get('/eatery/:name/:type', function (req, res) {
+
+	console.log("HTTP Get Request");
+	var userReference = firebase.database().ref("/Eatery");
+
+	//Attach an asynchronous callback to read the data
+	userReference.on("value", 
+			  function(eaterySnapshot) {
+					var lst = [];
+					var response = '';
+					var date = new Date();
+					var current_hour = date.getHours();
+					eaterySnapshot.forEach(function(snapshot){
+						var obj = snapshot.val();
+						if(obj.name == req.params.name){
+							if(current_hour >= Number(obj.schedule.StartTime.split(':')[0]) && current_hour < Number(obj.schedule.EndTime.split(':')[0])){
+								console.log("eatery open");
+								for (var i=0; i < obj.MenuTypes.length; i++){
+									if(obj.MenuTypes[i].Type === req.params.type){
+										for(var j=0; j < obj.MenuTypes[i].Items.length; j++){
+											var dict = {};
+											dict['name'] = obj.MenuTypes[i].Items[j].name;
+											dict['price'] = obj.MenuTypes[i].Items[j].price;
+											console.log(obj.MenuTypes[i].Items[j].name);
+											lst.push(dict);
+											response = 'The eatery is serving';
+										}
+										console.log(obj.MenuTypes[i].Type );
+									}
+									else{
+										response = 'The eatery is currently not serving ' + req.params.type;
+									}
+								}
+								// console.log(obj.MenuTypes[0].Type);
+								
+							}
+							else{
+								console.log("eatery closed");
+								response = "Eatery is currentl closed";
+							}
+						}
+						
+					})
+					res.json({fulfillmentText : response,
+								payload : lst});
+					userReference.off("value");
+					}, 
+			  function (errorObject) {
+					console.log("Read failed: " + errorObject.code);
+					res.send("Read failed: " + errorObject.code);
+			 });
+});
+
+//Fetch item price
+app.get('/eatery/:name/item/:item', function (req, res) {
+
+	console.log("HTTP Get Request");
+	var userReference = firebase.database().ref("/Eatery");
+
+	//Attach an asynchronous callback to read the data
+	userReference.on("value", 
+			  function(eaterySnapshot) {
+					var lst = [];
+					var response = '';
+					var date = new Date();
+					var current_hour = date.getHours();
+					console.log(current_hour);
+					eaterySnapshot.forEach(function(snapshot){
+						var obj = snapshot.val();
+						if(obj.name == req.params.name){
+							if(current_hour > Number(obj.schedule.StartTime.split(':')[0]) && current_hour < Number(obj.schedule.EndTime.split(':')[0])){
+								var notOperating = true;
+								response = response + 'Eatery is serving';
+								console.log(response);
+								// res.send("eatery open");
+								for (var i=0; i < obj.MenuTypes.length; i++){
+									if((current_hour > Number(obj.MenuTypes[i].StartTime.split(':')[0])) && (current_hour < Number(obj.MenuTypes[i].EndTime.split(':')[0]))){
+										response = response + ' ' + obj.MenuTypes[i].Type + '.';
+										console.log(response);
+										var notFoundItem = true;
+										for(var j=0; j < obj.MenuTypes[i].Items.length; j++){
+											if(obj.MenuTypes[i].Items[j].name.toLowerCase().includes(req.params.item.toLowerCase())){
+												response = response + ' ' + obj.MenuTypes[i].Items[j].name + ' is of rupees ' + obj.MenuTypes[i].Items[j].price;
+												console.log(response);
+												notFoundItem = !(notFoundItem);
+												break;
+											}
+										}
+										if(notFoundItem){ 
+											response = response + ' Currently not serving ' + req.params.item;
+											console.log(response);							
+										}
+										notOperating = !(notOperating);
+									}
+									
+								}
+								if(notOperating){
+									console.log("eatery open - Currently kitchen closed");
+									response = response + ' Currently kitchen closed';
+								}
+								
+							}
+							else{
+								console.log("eatery closed");
+								response = "Eatery closed.";
+							}
+						}
+						
+					})
+					res.json({fulfillmentText : response});
+					userReference.off("value");
+					}, 
+			  function (errorObject) {
+					console.log("Read failed: " + errorObject.code);
+					res.send("Read failed: " + errorObject.code);
+			 });
+});
+
+
+
+app.listen(3000, () => console.log('Listening on port 3000'));
