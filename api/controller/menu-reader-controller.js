@@ -155,7 +155,7 @@ exports.get_all_eatery = function(req, res) {
                                 dict['price'] = item.Eatery.Menus[i].Menu.Items[j].price;
                                 lst.push(dict);
                                 console.log(dict);
-                                response = 'The price of ' + reqItem + 'is '+ item.Eatery.Menus[i].Menu.Items[j].price;
+                                response = 'The price of ' + reqItem + ' is '+ item.Eatery.Menus[i].Menu.Items[j].price;
                                 }
                                 //else
                                 //{
