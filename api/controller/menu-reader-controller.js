@@ -147,7 +147,7 @@ exports.get_all_eatery = function(req, res) {
                         {
                             for(var j=0;j<item.Eatery.Menus[i].Menu.Items.length;j++)
                             {
-                                console.log(item.Eatery.Menus[i].Menu.Items[j].name);
+                                //console.log(item.Eatery.Menus[i].Menu.Items[j].name);
                                 if(item.Eatery.Menus[i].Menu.Items[j].name.indexOf(reqItem)>-1)
                                 {
                                     var dict = {};
@@ -155,7 +155,7 @@ exports.get_all_eatery = function(req, res) {
                                 dict['price'] = item.Eatery.Menus[i].Menu.Items[j].price;
                                 lst.push(dict);
                                 console.log(dict);
-                                response = lst;
+                                response = 'The price of ' + reqItem + 'is '+ item.Eatery.Menus[i].Menu.Items[j].price;
                                 }
                                 //else
                                 //{
