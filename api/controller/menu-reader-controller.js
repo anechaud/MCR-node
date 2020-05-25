@@ -23,7 +23,7 @@ exports.get_all_eatery = function(req, res) {
                 }
             })
         console.log(names);
-        res.send({response});
+        res.send(response);
     });
   };
 
