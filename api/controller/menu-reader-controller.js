@@ -59,7 +59,7 @@ exports.get_all_eatery = function(req, res) {
             }
         });
         console.log(menutypes);
-        res.json({fulfillmentText : response});
+        res.json(response);
     });
   };
 
@@ -123,7 +123,7 @@ exports.get_all_eatery = function(req, res) {
                 }
             }
         });
-        res.json({fulfillmentText : response});
+        res.json(response);
     });
   };
 
@@ -175,6 +175,6 @@ exports.get_all_eatery = function(req, res) {
                 }
             }
         });
-        res.json({fulfillmentText : response});
+        res.json(response);
     });
   };
