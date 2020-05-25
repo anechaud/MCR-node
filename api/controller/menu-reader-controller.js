@@ -157,10 +157,10 @@ exports.get_all_eatery = function(req, res) {
                                 console.log(dict);
                                 response = lst;
                                 }
-                                else
-                                {
-                                    response = 'The eatery is currently not serving ' + reqItem;
-                                }
+                                //else
+                                //{
+                                    //response = 'The eatery is currently not serving ' + reqItem;
+                                //}
                             }
                         }
                         else
