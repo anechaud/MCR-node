@@ -17,7 +17,7 @@ var checkIfEateryOperating = function checkIfEateryOperating(input)
                 }
                 else
                 {
-                    isOpen = false;
+                    isOpen = true;
                 }
             }
         });
@@ -45,7 +45,7 @@ var checkMenuTypeAvailability = function checkMenuTypeAvailability(inputName, in
                         }
                         else
                         {
-                            isOpen = false;
+                            isOpen = true;
                         }
                     }
                 }
