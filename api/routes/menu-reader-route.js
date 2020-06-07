@@ -17,4 +17,7 @@ app.route('/Eatery/:restName/:type')
 app.route('/Eatery/:restName/item/:itemName')
 .get(todoList.get_item_by_Name);
 
+app.route('/test')
+.post(todoList.handle_dialogflow);
+
 };
