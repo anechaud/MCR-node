@@ -38,7 +38,7 @@ var getMenuType = function getMenuType(restname)
                 if(helper.checkIfEateryOperating(restname) == true)
                 {
                     for (var i = 0; i < item.Eatery.Menus.length; i++) {
-                        var type = item.Eatery.Menus[i].Menu.Type;
+                        var type = item.Eatery.Menus[i].Menu.Type.toLowerCase();
                         if(helper.checkMenuTypeAvailability(restname,type) == true)
                         {
                             menutypes.push(type);
