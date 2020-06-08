@@ -42,7 +42,7 @@ var getMenuType = function getMenuType(restname)
                         if(helper.checkMenuTypeAvailability(restname,type) == true)
                         {
                             menutypes.push(type);
-                            response = 'Available menus are ' + type;
+                            response = 'Available menus are ' + menutypes;
                         }
                         else
                         {
@@ -61,7 +61,121 @@ var getMenuType = function getMenuType(restname)
     return response;
 }
 
+var getItemByType = function getItemByType(restname,reqtype)
+{
+    var menutypes = [];
+    var lst = [];
+    var response = '';
+    db.on("value", snap => {
+        var restaurant= snap.val();
+        restaurant.forEach(function(item){
+            if(item.Eatery.name==restname)
+            {
+                if(helper.checkIfEateryOperating(restname) == true)
+                {
+                    for (var i = 0; i < item.Eatery.Menus.length; i++) {
+                        var type = item.Eatery.Menus[i].Menu.Type;
+                        if(type.indexOf(reqtype)>-1)
+                        {
+                        if(helper.checkMenuTypeAvailability(restname,type) == true)
+                        {
+                            for(var j=0;j<item.Eatery.Menus[i].Menu.Items.length;j++)
+                            {
+                                var dict = {};
+                                dict['name'] = item.Eatery.Menus[i].Menu.Items[j].name;
+                                dict['price'] = item.Eatery.Menus[i].Menu.Items[j].price;
+                                lst.push(dict);
+                                console.log(dict);
+                                response = lst;
+                            }
+                        }
+                        else
+                        {
+                            response = 'The eatery is currently not serving ' + req.params.type;
+                        }
+                        }
+                    }
+                }
+                else
+                {
+                    response = 'Sorry! The eatery is currently non operating.'
+                }
+            }
+        });
+    });
+    return response;
+}
+
+var getItemByName = function getItemByName(restname,reqItem)
+{
+    var menutypes = [];
+    var lst = [];
+    var response = '';
+    db.on("value", snap => {
+        var restaurant= snap.val();
+        restaurant.forEach(function(item){
+            if(item.Eatery.name==restname)
+            {
+                if(helper.checkIfEateryOperating(restname) == true)
+                {
+                    for (var i = 0; i < item.Eatery.Menus.length; i++) {
+                        var type = item.Eatery.Menus[i].Menu.Type;
+                        if(helper.checkMenuTypeAvailability(restname,type) == true)
+                        {
+                            for(var j=0;j<item.Eatery.Menus[i].Menu.Items.length;j++)
+                            {
+                                //console.log(item.Eatery.Menus[i].Menu.Items[j].name);
+                                if(item.Eatery.Menus[i].Menu.Items[j].name.indexOf(reqItem)>-1)
+                                {
+                                    var dict = {};
+                                dict['name'] = item.Eatery.Menus[i].Menu.Items[j].name;
+                                dict['price'] = item.Eatery.Menus[i].Menu.Items[j].price;
+                                lst.push(dict);
+                                console.log(dict);
+                                response = 'The price of ' + reqItem + ' is '+ item.Eatery.Menus[i].Menu.Items[j].price;
+                                }
+                                //else
+                                //{
+                                    //response = 'The eatery is currently not serving ' + reqItem;
+                                //}
+                            }
+                        }
+                        else
+                        {
+                            response = 'The eatery is currently not serving ' + reqItem;
+                        }
+                    }
+                }
+                else
+                {
+                    response = 'Sorry! The eatery is currently non operating.'
+                }
+            }
+        });
+    });
+    return response;
+}    
+
+var operatingHours = function operatingHours(restname)
+{
+    var response = "The operating hours are ";
+    db.on("value", snap => {
+        var restaurant= snap.val();
+        restaurant.forEach(function(item){
+            if(item.Eatery.name==restname)
+            {
+                response = response + item.Eatery.schedule.StartTime + ' to ' + item.Eatery.schedule.EndTime;
+                console.log(item.Eatery.schedule.StartTime,'-',item.Eatery.schedule.EndTime)
+            }
+        });
+    });
+    return response;
+}
+
 module.exports = {
     getAllEatery,
-    getMenuType
+    getMenuType,
+    getItemByType,
+    getItemByName,
+    operatingHours
  }
