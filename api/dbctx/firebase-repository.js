@@ -117,13 +117,13 @@ var getItemByName = function getItemByName(restname,reqItem)
                 if(helper.checkIfEateryOperating(restname) == true)
                 {
                     for (var i = 0; i < item.Eatery.Menus.length; i++) {
-                        var type = item.Eatery.Menus[i].Menu.Type;
+                        var type = item.Eatery.Menus[i].Menu.Type.toLowerCase();
                         if(helper.checkMenuTypeAvailability(restname,type) == true)
                         {
                             for(var j=0;j<item.Eatery.Menus[i].Menu.Items.length;j++)
                             {
                                 //console.log(item.Eatery.Menus[i].Menu.Items[j].name);
-                                if(item.Eatery.Menus[i].Menu.Items[j].name.indexOf(reqItem)>-1)
+                                if(item.Eatery.Menus[i].Menu.Items[j].name.toLowerCase().indexOf(reqItem.toLowerCase())>-1)
                                 {
                                     var dict = {};
                                 dict['name'] = item.Eatery.Menus[i].Menu.Items[j].name;
