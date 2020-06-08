@@ -126,11 +126,11 @@ var getItemByName = function getItemByName(restname,reqItem)
                                 if(item.Eatery.Menus[i].Menu.Items[j].name.toLowerCase().indexOf(reqItem.toLowerCase())>-1)
                                 {
                                     var dict = {};
-                                dict['name'] = item.Eatery.Menus[i].Menu.Items[j].name;
-                                dict['price'] = item.Eatery.Menus[i].Menu.Items[j].price;
+                                var name = item.Eatery.Menus[i].Menu.Items[j].name;
+                                var price = item.Eatery.Menus[i].Menu.Items[j].price;
                                 lst.push(dict);
                                 console.log(dict);
-                                response = 'The price of ' + reqItem + ' is '+ item.Eatery.Menus[i].Menu.Items[j].price;
+                                response = 'The price of ' + name + ' is '+ price;
                                 }
                                 //else
                                 //{
