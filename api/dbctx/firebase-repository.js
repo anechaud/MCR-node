@@ -65,7 +65,7 @@ var getItemByType = function getItemByType(restname,reqtype)
 {
     var menutypes = [];
     var lst = [];
-    var response = '';
+    var response = 'Available items are ';
     db.on("value", snap => {
         var restaurant= snap.val();
         restaurant.forEach(function(item){
@@ -81,12 +81,10 @@ var getItemByType = function getItemByType(restname,reqtype)
                         {
                             for(var j=0;j<item.Eatery.Menus[i].Menu.Items.length;j++)
                             {
-                                var dict = {};
-                                dict['name'] = item.Eatery.Menus[i].Menu.Items[j].name;
-                                dict['price'] = item.Eatery.Menus[i].Menu.Items[j].price;
-                                lst.push(dict);
-                                console.log(dict);
-                                response = lst;
+                                var name = item.Eatery.Menus[i].Menu.Items[j].name;
+                                var price = item.Eatery.Menus[i].Menu.Items[j].price;
+                                var output = name + ' ' + price + ' rupees '
+                                response = response + output;
                             }
                         }
                         else
