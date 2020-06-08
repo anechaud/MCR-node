@@ -36,7 +36,7 @@ var checkMenuTypeAvailability = function checkMenuTypeAvailability(inputName, in
             if(item.Eatery.name == inputName)
             {
                 for (var i = 0; i < item.Eatery.Menus.length; i++) {
-                    var type = item.Eatery.Menus[i].Menu.Type;
+                    var type = item.Eatery.Menus[i].Menu.Type.toLowerCase();
                     if(type == inputType)
                     {
                         if(current_hour > Number(item.Eatery.Menus[i].Menu.StartTime.split(':')[0]) && current_hour < Number(item.Eatery.Menus[i].Menu.EndTime.split(':')[0]))
