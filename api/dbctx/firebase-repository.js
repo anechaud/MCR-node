@@ -107,8 +107,9 @@ var getItemByType = function getItemByType(restname,reqtype)
 var getItemByName = function getItemByName(restname,reqItem)
 {
     var menutypes = [];
+    var output = '';
     var lst = [];
-    var response = '';
+    var response = 'The item requested is not being served';
     db.on("value", snap => {
         var restaurant= snap.val();
         restaurant.forEach(function(item){
@@ -122,7 +123,6 @@ var getItemByName = function getItemByName(restname,reqItem)
                         {
                             for(var j=0;j<item.Eatery.Menus[i].Menu.Items.length;j++)
                             {
-                                //console.log(item.Eatery.Menus[i].Menu.Items[j].name);
                                 if(item.Eatery.Menus[i].Menu.Items[j].name.toLowerCase().indexOf(reqItem.toLowerCase())>-1)
                                 {
                                     var dict = {};
@@ -130,17 +130,10 @@ var getItemByName = function getItemByName(restname,reqItem)
                                 var price = item.Eatery.Menus[i].Menu.Items[j].price;
                                 lst.push(dict);
                                 console.log(dict);
-                                response = 'The price of ' + name + ' is '+ price;
+                                output = output + ' ' + 'The price of ' + name + ' is '+ price;
+                                response = output;
                                 }
-                                //else
-                                //{
-                                    //response = 'The eatery is currently not serving ' + reqItem;
-                                //}
                             }
-                        }
-                        else
-                        {
-                            response = 'The eatery is currently not serving ' + reqItem;
                         }
                     }
                 }

@@ -45,7 +45,7 @@ var checkMenuTypeAvailability = function checkMenuTypeAvailability(inputName, in
                         }
                         else
                         {
-                            isOpen = true;
+                            isOpen = false;
                         }
                     }
                 }
