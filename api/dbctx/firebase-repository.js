@@ -104,7 +104,7 @@ var getItemByType = function getItemByType(restname,reqtype)
                         }
                     else
                         {
-                            response = 'The eatery is currently not serving ' + req.params.type +' Is there anything else I can help you with?';
+                            response = 'The eatery is currently not serving ' + reqtype +' Is there anything else I can help you with?';
                         }
                 }
                 else
