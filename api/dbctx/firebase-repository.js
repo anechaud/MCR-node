@@ -14,11 +14,11 @@ var getAllEatery = function getAllEatery()
                 if(helper.checkIfEateryOperating(item.Eatery.name) == true)
                 {
                 names.push(item.Eatery.name);
-                outputText = outputText + item.Eatery.name + '    ';
+                outputText = outputText + item.Eatery.name + ',    ';
                 }
                 else
                 {
-                    outputText = 'Sorry! No restaurant is sevring at this moment';
+                    outputText = 'Sorry! No restaurant is sevring at this moment.';
                 }
             });
         console.log(names);
@@ -30,6 +30,7 @@ var getMenuType = function getMenuType(restname)
 {
     var menutypes = [];
     var response = '';
+    var flag = false;
     db.on("value", snap => {
         var restaurant= snap.val();
         restaurant.forEach(function(item){
@@ -41,18 +42,24 @@ var getMenuType = function getMenuType(restname)
                         var type = item.Eatery.Menus[i].Menu.Type.toLowerCase();
                         if(helper.checkMenuTypeAvailability(restname,type) == true)
                         {
-                            menutypes.push(type);
+                            menutypes.push(type+',');
                             response = 'Available menus are ' + menutypes;
+                            flag=true;
                         }
-                        else
-                        {
-                            response = "Sorry! Nothing is being served at this hour.";
-                        }
+                        
                     }
+                    if(flag == true)
+                    {
+                        response = response + 'Do you want to exlore the menu items?';
+                    }
+                    else
+                        {
+                            response = "Sorry! Nothing is being served at this hour. Can I help you with anything else?";
+                        }
                 }
                 else
                 {
-                    response = "Sorry! The eatery is closed";
+                    response = "Sorry! The eatery is closed.Can I help you with anything else?";
                 }
             }
         });
@@ -65,7 +72,8 @@ var getItemByType = function getItemByType(restname,reqtype)
 {
     var menutypes = [];
     var lst = [];
-    var response = 'Available items are ';
+    var flag = false;
+    var response = '';
     db.on("value", snap => {
         var restaurant= snap.val();
         restaurant.forEach(function(item){
@@ -77,26 +85,31 @@ var getItemByType = function getItemByType(restname,reqtype)
                         var type = item.Eatery.Menus[i].Menu.Type.toLowerCase();
                         if(type.indexOf(reqtype)>-1)
                         {
-                        if(helper.checkMenuTypeAvailability(restname,type) == true)
-                        {
-                            for(var j=0;j<item.Eatery.Menus[i].Menu.Items.length;j++)
+                            if(helper.checkMenuTypeAvailability(restname,type) == true)
                             {
-                                var name = item.Eatery.Menus[i].Menu.Items[j].name;
-                                var price = item.Eatery.Menus[i].Menu.Items[j].price;
-                                var output = name + ' ' + price + ' rupees '
-                                response = response + output;
+                                for(var j=0;j<item.Eatery.Menus[i].Menu.Items.length;j++)
+                                {
+                                    var name = item.Eatery.Menus[i].Menu.Items[j].name;
+                                    var price = item.Eatery.Menus[i].Menu.Items[j].price;
+                                    var output = name + ' ' + price + ' rupees. '
+                                    response = response + output;
+                                    flag=true;
+                                }
                             }
                         }
-                        else
-                        {
-                            response = 'The eatery is currently not serving ' + req.params.type;
-                        }
-                        }
                     }
+                    if(flag == true)
+                        {
+                            response = 'For ' + reqtype + ' we have ' + response + 'Do you need anything else?'
+                        }
+                    else
+                        {
+                            response = 'The eatery is currently not serving ' + req.params.type +' Is there anything else I can help you with?';
+                        }
                 }
                 else
                 {
-                    response = 'Sorry! The eatery is currently non operating.'
+                    response = 'Sorry! The eatery is currently non operating. Is there anything else I can help you with?'
                 }
             }
         });
@@ -109,7 +122,8 @@ var getItemByName = function getItemByName(restname,reqItem)
     var menutypes = [];
     var output = '';
     var lst = [];
-    var response = 'The item requested is not being served';
+    var flag = false;
+    var response = 'The item requested is not being served. ';
     db.on("value", snap => {
         var restaurant= snap.val();
         restaurant.forEach(function(item){
@@ -130,12 +144,21 @@ var getItemByName = function getItemByName(restname,reqItem)
                                 var price = item.Eatery.Menus[i].Menu.Items[j].price;
                                 lst.push(dict);
                                 console.log(dict);
-                                output = output + ' ' + 'The price of ' + name + ' is '+ price;
+                                output = output + ' ' + 'The price of ' + name + ' is '+ price +'.';
                                 response = output;
+                                flag=true;
                                 }
                             }
                         }
                     }
+                    if(flag == true)
+                    {
+                        response = response + 'Do you need anything else?'
+                    }
+                    else
+                        {
+                            response = 'The eatery is currently not serving ' + reqItem +' Is there anything else I can help you with?';
+                        }
                 }
                 else
                 {
