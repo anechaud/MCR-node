@@ -11,13 +11,13 @@ var checkIfEateryOperating = function checkIfEateryOperating(input)
         { 
             if(item.Eatery.name == input)
             {
-                if(current_hour > Number(item.Eatery.schedule.StartTime.split(':')[0]) && current_hour < Number(item.Eatery.schedule.EndTime.split(':')[0]))
+                if(current_hour >= Number(item.Eatery.schedule.StartTime.split(':')[0]) && current_hour <= Number(item.Eatery.schedule.EndTime.split(':')[0]))
                 {
                     isOpen = true;
                 }
                 else
                 {
-                    isOpen = true;
+                    isOpen = false;
                 }
             }
         });
@@ -39,7 +39,9 @@ var checkMenuTypeAvailability = function checkMenuTypeAvailability(inputName, in
                     var type = item.Eatery.Menus[i].Menu.Type.toLowerCase();
                     if(type == inputType)
                     {
-                        if(current_hour > Number(item.Eatery.Menus[i].Menu.StartTime.split(':')[0]) && current_hour < Number(item.Eatery.Menus[i].Menu.EndTime.split(':')[0]))
+                        var x = Number(item.Eatery.Menus[i].Menu.StartTime.split(':')[0]);
+                        var y = Number(item.Eatery.Menus[i].Menu.EndTime.split(':')[0]);
+                        if(current_hour >= Number(item.Eatery.Menus[i].Menu.StartTime.split(':')[0]) && current_hour <= Number(item.Eatery.Menus[i].Menu.EndTime.split(':')[0]))
                         {
                             isOpen = true;
                         }

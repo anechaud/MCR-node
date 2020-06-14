@@ -2,6 +2,7 @@
 var db = require('../dbctx/firebase-context');
 var helper = require('../helper/helper');
 var repo = require('../dbctx/firebase-repository');
+var itemMenu = '';
 
 exports.get_all_eatery = function(req, res) {
     console.log("HTTP Get Eatery Name Request");
@@ -26,6 +27,7 @@ exports.get_all_eatery = function(req, res) {
     if(intent == "1 - checkIfOperating-MenuType")
     {
         fulfillmentText = repo.getMenuType(restname);
+        itemMenu = fulfillmentText.split(' ')[3];
     }
 
     if(intent == "2 - findCostOfItem")
@@ -37,6 +39,12 @@ exports.get_all_eatery = function(req, res) {
     if(intent == "4 - fetchMenuByType")
     {
         var reqType = requestObj.parameters.menuType;
+        fulfillmentText = repo.getItemByType(restname,reqType)
+    }
+
+    if(intent == "1b - checkIfOperatingMenuType - yes")
+    {
+        var reqType = itemMenu;
         fulfillmentText = repo.getItemByType(restname,reqType)
     }
 

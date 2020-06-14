@@ -42,7 +42,7 @@ var getMenuType = function getMenuType(restname)
                         var type = item.Eatery.Menus[i].Menu.Type.toLowerCase();
                         if(helper.checkMenuTypeAvailability(restname,type) == true)
                         {
-                            menutypes.push(type+',');
+                            menutypes.push(type+' ,');
                             response = 'Available menus are ' + menutypes;
                             flag=true;
                         }
@@ -50,7 +50,7 @@ var getMenuType = function getMenuType(restname)
                     }
                     if(flag == true)
                     {
-                        response = response + 'Do you want to exlore the menu items?';
+                        response = response + ' Do you want to explore the menu items?';
                     }
                     else
                         {
@@ -59,7 +59,7 @@ var getMenuType = function getMenuType(restname)
                 }
                 else
                 {
-                    response = "Sorry! The eatery is closed.Can I help you with anything else?";
+                    response = "Sorry! The eatery is closed. Can I help you with anything else?";
                 }
             }
         });
@@ -100,11 +100,11 @@ var getItemByType = function getItemByType(restname,reqtype)
                     }
                     if(flag == true)
                         {
-                            response = 'For ' + reqtype + ' we have ' + response + 'Do you need anything else?'
+                            response = 'For ' + reqtype + ' we have ' + response + ' Is there anything else I can help you with?'
                         }
                     else
                         {
-                            response = 'The eatery is currently not serving ' + reqtype +' Is there anything else I can help you with?';
+                            response = 'The eatery is currently not serving ' + reqtype +'. Is there anything else I can help you with?';
                         }
                 }
                 else
@@ -153,16 +153,16 @@ var getItemByName = function getItemByName(restname,reqItem)
                     }
                     if(flag == true)
                     {
-                        response = response + 'Do you need anything else?'
+                        response = response + ' Do you need anything else?'
                     }
                     else
                         {
-                            response = 'The eatery is currently not serving ' + reqItem +' Is there anything else I can help you with?';
+                            response = 'The eatery is currently not serving ' + reqItem +'. Is there anything else I can help you with?';
                         }
                 }
                 else
                 {
-                    response = 'Sorry! The eatery is currently non operating.'
+                    response = 'Sorry! The eatery is currently non operating. Is there anything else you need?'
                 }
             }
         });
