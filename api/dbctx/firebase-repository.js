@@ -42,7 +42,7 @@ var getMenuType = function getMenuType(restname)
                         var type = item.Eatery.Menus[i].Menu.Type.toLowerCase();
                         if(helper.checkMenuTypeAvailability(restname,type) == true)
                         {
-                            menutypes.push(type+' ,');
+                            menutypes.push(type+'.');
                             response = 'Available menus are ' + menutypes;
                             flag=true;
                         }
@@ -85,8 +85,8 @@ var getItemByType = function getItemByType(restname,reqtype)
                         var type = item.Eatery.Menus[i].Menu.Type.toLowerCase();
                         if(type.indexOf(reqtype)>-1)
                         {
-                            if(helper.checkMenuTypeAvailability(restname,type) == true)
-                            {
+                            //if(helper.checkMenuTypeAvailability(restname,type) == true)
+                            //{
                                 for(var j=0;j<item.Eatery.Menus[i].Menu.Items.length;j++)
                                 {
                                     var name = item.Eatery.Menus[i].Menu.Items[j].name;
@@ -95,7 +95,7 @@ var getItemByType = function getItemByType(restname,reqtype)
                                     response = response + output;
                                     flag=true;
                                 }
-                            }
+                            //}
                         }
                     }
                     if(flag == true)
