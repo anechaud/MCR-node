@@ -133,8 +133,8 @@ var getItemByName = function getItemByName(restname,reqItem)
                 {
                     for (var i = 0; i < item.Eatery.Menus.length; i++) {
                         var type = item.Eatery.Menus[i].Menu.Type.toLowerCase();
-                        if(helper.checkMenuTypeAvailability(restname,type) == true)
-                        {
+                        //if(helper.checkMenuTypeAvailability(restname,type) == true)
+                        //{
                             for(var j=0;j<item.Eatery.Menus[i].Menu.Items.length;j++)
                             {
                                 if(item.Eatery.Menus[i].Menu.Items[j].name.toLowerCase().indexOf(reqItem.toLowerCase())>-1)
@@ -149,7 +149,7 @@ var getItemByName = function getItemByName(restname,reqItem)
                                 flag=true;
                                 }
                             }
-                        }
+                        //}
                     }
                     if(flag == true)
                     {

@@ -23,7 +23,8 @@ exports.get_all_eatery = function(req, res) {
     var requestObj = req.body.queryResult;
     var intent = requestObj.intent.displayName;
     var fulfillmentText = "Sorry! Please try again";
-    var restname= "Dell 6 Cafeteria"
+    var restname= "Dell 6 Cafeteria";
+    
     if(intent == "1 - checkIfOperating-MenuType")
     {
         fulfillmentText = repo.getMenuType(restname);
