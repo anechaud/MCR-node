@@ -139,14 +139,15 @@ var getItemByName = function getItemByName(restname,reqItem)
                             {
                                 if(item.Eatery.Menus[i].Menu.Items[j].name.toLowerCase().indexOf(reqItem.toLowerCase())>-1)
                                 {
-                                    var dict = {};
-                                var name = item.Eatery.Menus[i].Menu.Items[j].name;
-                                var price = item.Eatery.Menus[i].Menu.Items[j].price;
-                                lst.push(dict);
-                                console.log(dict);
-                                output = output + ' ' + 'The price of ' + name + ' is '+ price +'.';
-                                response = output;
-                                flag=true;
+                                    var name = item.Eatery.Menus[i].Menu.Items[j].name;
+                                    var price = item.Eatery.Menus[i].Menu.Items[j].price;
+                                    if(!lst.includes(name))
+                                    {
+                                     output = output + ' The price of ' + name + ' is '+ price +'.';
+                                    }
+                                    lst.push(name);
+                                    response = output;
+                                    flag=true;
                                 }
                             }
                         //}
