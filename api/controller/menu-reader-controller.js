@@ -53,6 +53,14 @@ exports.get_all_eatery = function(req, res) {
     {
         fulfillmentText = repo.operatingHours(restname);
     }
+
+    if(intent == "9 - findItemInMenu")
+    {
+        var reqType = requestObj.parameters.menutype;
+        var reqItem = requestObj.parameters.foodItem;
+        fulfillmentText = repo.checkMenuAvailability(restname, reqType, reqItem);
+    }
+
     return res.json({
         fulfillmentText: fulfillmentText
     })

@@ -171,6 +171,64 @@ var getItemByName = function getItemByName(restname,reqItem)
     return response;
 }    
 
+var checkMenuAvailability = function checkMenuAvailability(restname, reqType, reqItem)
+{
+    var menutypes = [];
+    var output = '';
+    var lst = [];
+    var flag = false;
+    var response = 'Yes. ' + reqItem + ' is available in ' + reqType;
+    db.on("value", snap => {
+        var restaurant= snap.val();
+        restaurant.forEach(function(item){
+            if(item.Eatery.name==restname)
+            {
+                if(helper.checkIfEateryOperating(restname) == true)
+                {
+                    for (var i = 0; i < item.Eatery.Menus.length; i++) {
+                        var type = item.Eatery.Menus[i].Menu.Type.toLowerCase();
+                        var q = reqType;
+                        //if(helper.checkMenuTypeAvailability(restname,type) == true)
+                        //{
+                        if(type.indexOf(q.toLowerCase())>-1)
+                        { 
+                            for(var j=0;j<item.Eatery.Menus[i].Menu.Items.length;j++)
+                            {
+                                if(item.Eatery.Menus[i].Menu.Items[j].name.toLowerCase().indexOf(reqItem.toLowerCase())>-1)
+                                {
+                                    var name = item.Eatery.Menus[i].Menu.Items[j].name;
+                                    var price = item.Eatery.Menus[i].Menu.Items[j].price;
+                                    if(!lst.includes(name))
+                                    {
+                                     output = output + ' The price of ' + name + ' is '+ price +'.';
+                                    }
+                                    lst.push(name);
+                                    //response = output;
+                                    flag=true;
+                                }
+                            }
+                        }
+                        //}
+                    }
+                    if(flag == true)
+                    {
+                        response =response + output + ' Do you need anything else?'
+                    }
+                    else
+                        {
+                            response = 'The eatery is currently not serving ' + reqItem +'. Is there anything else I can help you with?';
+                        }
+                }
+                else
+                {
+                    response = 'Sorry! The eatery is currently non operating. Is there anything else you need?'
+                }
+            }
+        });
+    });
+    return response;
+}
+
 var operatingHours = function operatingHours(restname)
 {
     var response = "The operating hours are ";
@@ -192,5 +250,6 @@ module.exports = {
     getMenuType,
     getItemByType,
     getItemByName,
-    operatingHours
+    operatingHours,
+    checkMenuAvailability
  }
