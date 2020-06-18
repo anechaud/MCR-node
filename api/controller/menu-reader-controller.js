@@ -45,7 +45,7 @@ exports.get_all_eatery = function(req, res) {
 
     if(intent == "1b - checkIfOperatingMenuType - yes")
     {
-        var reqType = 'snacks';
+        var reqType = 'dinner';
         fulfillmentText = repo.getItemByType(restname,reqType)
     }
 
