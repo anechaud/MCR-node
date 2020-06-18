@@ -216,7 +216,7 @@ var checkMenuAvailability = function checkMenuAvailability(restname, reqType, re
                     }
                     else
                         {
-                            response = 'The eatery is currently not serving ' + reqItem +'. Is there anything else I can help you with?';
+                            response = 'The eatery is currently not serving ' + reqItem + ' in ' + reqType  + '. Is there anything else I can help you with?';
                         }
                 }
                 else
