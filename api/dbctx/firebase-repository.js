@@ -64,7 +64,11 @@ var getMenuType = function getMenuType(restname)
             }
         });
         console.log(menutypes);
-    });
+    },
+    function (errorObject) {
+        console.log("Read failed: " + errorObject.code);
+        response="Can you please say one more time?";
+   });
     return response;
 }
 
@@ -113,7 +117,11 @@ var getItemByType = function getItemByType(restname,reqtype)
                 }
             }
         });
-    });
+    },
+    function (errorObject) {
+        console.log("Read failed: " + errorObject.code);
+        response="Sorry, I missed that. Could you please say that again?";
+   });
     return response;
 }
 
@@ -167,7 +175,11 @@ var getItemByName = function getItemByName(restname,reqItem)
                 }
             }
         });
-    });
+    },
+    function (errorObject) {
+        console.log("Read failed: " + errorObject.code);
+        response="Pardon me for being unmindful! Can you please say louder?";
+   });
     return response;
 }    
 
@@ -225,7 +237,11 @@ var checkMenuAvailability = function checkMenuAvailability(restname, reqType, re
                 }
             }
         });
-    });
+    },
+    function (errorObject) {
+        console.log("Read failed: " + errorObject.code);
+        response="My Bad! Please say one more time.";
+   });
     return response;
 }
 
