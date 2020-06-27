@@ -28,7 +28,7 @@ exports.get_all_eatery = function(req, res) {
     if(intent == "1 - checkIfOperating-MenuType")
     {
         fulfillmentText = repo.getMenuType(restname);
-        itemMenu = fulfillmentText.split(' ')[3];
+        itemMenu = fulfillmentText.split(' ')[3].replace('.','');
     }
 
     if(intent == "2 - findCostOfItem")
