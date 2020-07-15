@@ -112,7 +112,7 @@ var getItemByType = function getItemByType(restname,reqtype, specialCategory)
                     }
                     if(flag == true)
                         {
-                            response = 'For ' + reqtype + ' we have ' + response + ' What else you want to check?'
+                            response = 'For ' + reqtype + 'in special menu section we have ' + response + ' What else you want to check?'
                             if(specialCategory != null)
                             {
                                 response = 'For ' + reqtype + ' we have ' + response + ' What else do you need?'
