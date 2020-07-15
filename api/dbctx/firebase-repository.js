@@ -100,6 +100,9 @@ var getItemByType = function getItemByType(restname,reqtype, specialCategory)
                                     flag=true;
                                 }
                             }
+                            if(item.Eatery.Menus[i].Menu.SpecialItems !== undefined)
+                            {
+                                console.log(reqtype + 'exsists');
                                 for(var j=0;j<item.Eatery.Menus[i].Menu.SpecialItems.length;j++)
                                 {
                                     var name = item.Eatery.Menus[i].Menu.SpecialItems[j].name;
@@ -108,6 +111,7 @@ var getItemByType = function getItemByType(restname,reqtype, specialCategory)
                                     response = response + output;
                                     flag=true;
                                 }
+                            }
                         }
                     }
                     if(flag == true)
