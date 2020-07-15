@@ -184,6 +184,24 @@ var getItemByName = function getItemByName(restname,reqItem)
                                     flag=true;
                                 }
                             }
+                            if(item.Eatery.Menus[i].Menu.SpecialItems !== undefined)
+                            {
+                                for(var j=0;j<item.Eatery.Menus[i].Menu.SpecialItems.length;j++)
+                                {
+                                    if(item.Eatery.Menus[i].Menu.SpecialItems[j].name.toLowerCase().indexOf(reqItem.toLowerCase())>-1)
+                                    {
+                                        var name = item.Eatery.Menus[i].Menu.SpecialItems[j].name;
+                                        var price = item.Eatery.Menus[i].Menu.SpecialItems[j].price;
+                                        if(!lst.includes(name))
+                                        {
+                                        output = output + ' The price of ' + name + ' is '+ price +'.';
+                                        }
+                                        lst.push(name);
+                                        response = output;
+                                        flag=true;
+                                    }
+                                }
+                            }
                         //}
                     }
                     if(flag == true)
