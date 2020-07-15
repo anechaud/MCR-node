@@ -40,13 +40,13 @@ exports.get_all_eatery = function(req, res) {
     if(intent == "4 - fetchMenuByType")
     {
         var reqType = requestObj.parameters.menuType;
-        fulfillmentText = repo.getItemByType(restname,reqType)
+        fulfillmentText = repo.getItemByType(restname,reqType, null)
     }
 
     if(intent == "1b - checkIfOperatingMenuType - yes")
     {
         var reqType = itemMenu;
-        fulfillmentText = repo.getItemByType(restname,reqType)
+        fulfillmentText = repo.getItemByType(restname,reqType, null)
     }
 
     if(intent == "5 - findOperatingHours")
