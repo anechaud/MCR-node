@@ -72,7 +72,7 @@ var getMenuType = function getMenuType(restname)
     return response;
 }
 
-var getItemByType = function getItemByType(restname,reqtype)
+var getItemByType = function getItemByType(restname,reqtype, specialCategory)
 {
     var menutypes = [];
     var lst = [];
@@ -89,8 +89,7 @@ var getItemByType = function getItemByType(restname,reqtype)
                         var type = item.Eatery.Menus[i].Menu.Type.toLowerCase();
                         if(type.indexOf(reqtype)>-1)
                         {
-                            //if(helper.checkMenuTypeAvailability(restname,type) == true)
-                            //{
+                            
                                 for(var j=0;j<item.Eatery.Menus[i].Menu.Items.length;j++)
                                 {
                                     var name = item.Eatery.Menus[i].Menu.Items[j].name;
@@ -99,7 +98,17 @@ var getItemByType = function getItemByType(restname,reqtype)
                                     response = response + output;
                                     flag=true;
                                 }
-                            //}
+                            if(specialCategory != null)
+                            {
+                                for(var j=0;j<item.Eatery.Menus[i].Menu.SpecialItems.length;j++)
+                                {
+                                    var name = item.Eatery.Menus[i].Menu.Items[j].name;
+                                    var price = item.Eatery.Menus[i].Menu.Items[j].price;
+                                    var output = name + ' ' + price + ' rupees. '
+                                    response = response + output;
+                                    flag=true;
+                                }
+                            }
                         }
                     }
                     if(flag == true)
@@ -109,6 +118,10 @@ var getItemByType = function getItemByType(restname,reqtype)
                     else
                         {
                             response = 'The eatery is currently not serving ' + reqtype +'. Is there anything else I can help you with?';
+                            if(specialCategory != null)
+                            {
+                                response = 'We no not have any special menu for today. Why dont you check our daily menu?';
+                            }
                         }
                 }
                 else

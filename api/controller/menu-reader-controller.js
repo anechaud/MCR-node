@@ -61,6 +61,14 @@ exports.get_all_eatery = function(req, res) {
         fulfillmentText = repo.checkMenuAvailability(restname, reqType, reqItem);
     }
 
+    if(intent == "10 - getSpecialCategoryMenu")
+    {
+        var reqType = requestObj.parameters.menutype;
+        var reqItem = requestObj.parameters.foodItem;
+        var SpecialCategoryMenu = requestObj.parameters.SpecialCategoryMenu;
+        fulfillmentText = repo.getItemByType(restname, reqType, SpecialCategoryMenu);
+    }
+
     return res.json({
         fulfillmentText: fulfillmentText
     })
