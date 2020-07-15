@@ -89,7 +89,8 @@ var getItemByType = function getItemByType(restname,reqtype, specialCategory)
                         var type = item.Eatery.Menus[i].Menu.Type.toLowerCase();
                         if(type.indexOf(reqtype)>-1)
                         {
-                            
+                            if(specialCategory == null)
+                            {
                                 for(var j=0;j<item.Eatery.Menus[i].Menu.Items.length;j++)
                                 {
                                     var name = item.Eatery.Menus[i].Menu.Items[j].name;
@@ -98,22 +99,24 @@ var getItemByType = function getItemByType(restname,reqtype, specialCategory)
                                     response = response + output;
                                     flag=true;
                                 }
-                            if(specialCategory != null)
-                            {
+                            }
                                 for(var j=0;j<item.Eatery.Menus[i].Menu.SpecialItems.length;j++)
                                 {
-                                    var name = item.Eatery.Menus[i].Menu.Items[j].name;
-                                    var price = item.Eatery.Menus[i].Menu.Items[j].price;
+                                    var name = item.Eatery.Menus[i].Menu.SpecialItems[j].name;
+                                    var price = item.Eatery.Menus[i].Menu.SpecialItems[j].price;
                                     var output = name + ' ' + price + ' rupees. '
                                     response = response + output;
                                     flag=true;
                                 }
-                            }
                         }
                     }
                     if(flag == true)
                         {
-                            response = 'For ' + reqtype + ' we have ' + response + ' Is there anything else I can help you with?'
+                            response = 'For ' + reqtype + ' we have ' + response + ' What else you want to check?'
+                            if(specialCategory != null)
+                            {
+                                response = 'For ' + reqtype + ' we have ' + response + ' What else do you need?'
+                            }
                         }
                     else
                         {
